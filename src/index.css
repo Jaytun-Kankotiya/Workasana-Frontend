@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+:root {
+  --primaryColor: rgba(0, 100, 97, 0.463);
+  --secondaryColor: #ffdd01;
+  --tertiaryColor: #003751;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.login-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0; 
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px 25px;
+  z-index: 1000;  
+}
+
+.navbar h2 {
+  margin: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #ffffff; 
+  font-weight: bold;
+}
+
+
+/* Reset Password Page */
+.reset-header{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px 60px;
+    width: auto;
+    max-width: 400px;
+}
+
+.reset-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reset-group label {
+  font-weight: 600;
+  color: #333;
+}
+
+.reset-group input {
+  padding: 10px 10px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.reset-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.reset-group input:focus {
+  border-color: #40ac86;
+  outline: none;
+  box-shadow: 0 0 6px rgba(64, 172, 134, 0.5);
+}
+
