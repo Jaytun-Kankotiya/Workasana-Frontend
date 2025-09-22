@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import bgImage from '../../assets/bg.jpg';
 
 const ResetOTPVerify = () => {
   const inputRefs = React.useRef([]);
@@ -33,11 +32,7 @@ const ResetOTPVerify = () => {
   };
 
   return (
-    <div
-      className="login-bg"
-      style={{
-        background: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${bgImage}) center/cover no-repeat`,
-      }}>
+    <div className="login-bg" style={{ "background-color": "#008080" }}>
       <Navbar />
       <form className="verification-container">
         <div className="verify-header">

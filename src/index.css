@@ -11,6 +11,7 @@ body {
 }
 
 .login-bg {
+  background-color: #f8efd6;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,7 +52,7 @@ body {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    padding: 20px 60px;
+    padding: 30px 60px;
     width: auto;
     max-width: 400px;
 }
@@ -68,8 +69,8 @@ body {
 }
 
 .reset-group input {
-  padding: 10px 10px;
-  width: 100%;
+  padding: 10px ;
+  width: 95%;
   border-radius: 8px;
   border: 1.5px solid #ccc;
   font-size: 1rem;
@@ -88,5 +89,28 @@ body {
   border-color: #40ac86;
   outline: none;
   box-shadow: 0 0 6px rgba(64, 172, 134, 0.5);
+}
+
+.input-field{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-field input {
+  flex: 1;
+  padding-right: 40px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #2C6975; 
+  font-size: 1.2rem;
 }
 

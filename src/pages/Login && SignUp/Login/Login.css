@@ -1,6 +1,6 @@
-:root{
+:root {
   --primaryColor: rgba(0, 100, 97, 0.463);
-  --secondaryColor: #ffdd01;
+  --buttonColor: #008080;
   --tertiaryColor: #003751;
 }
 
@@ -15,10 +15,10 @@
   line-height: 1.5;
 }
 
-
 .login-left {
   flex: 1;
-  background: rgba(0,0,0,0.5);
+  flex-wrap: wrap;
+  background: var(--buttonColor);
   color: #fff;
   padding: 50px 30px;
   display: flex;
@@ -29,16 +29,18 @@
 
 .login-container {
   display: flex;
+  flex-wrap: wrap;
   width: 80%;
   max-width: 1000px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0px 8px 25px rgba(0,0,0,0.3);
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .login-right {
   flex: 1;
+  flex-wrap: wrap;
   background-color: #fff;
   color: #333;
   padding: 40px;
@@ -47,49 +49,72 @@
   justify-content: center;
 }
 
-.login-header{
-    text-align: center;
+.login-header {
+  text-align: center;
 }
 
-.login-header h1{
-    color: #40ac86;
+.login-header h1 {
+  color: var(--buttonColor);
 }
 
-
-.login-form{
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    gap: 15px;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 15px;
 }
 
-.form-group{
-    display: flex;
-    flex-direction: column;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
-.form-group label{
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 5px;
+.email-form {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 }
 
-.login-form input{
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 5px;
-    font-size: 1rem;
-    transition: 0.2s ease-in-out;
+.email-form label {
+  color: #7c7f82;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
 }
 
-.login-form input:focus{
-    outline: none;
-    border-color: var(--primaryColor);
-    box-shadow: 0 0 5px rgba(0, 172, 109, 0.4);
+.email-form input{
+  border: 1px solid #ccc;
+  color: #505050;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  transition: 0.2s ease-in-out;
+}
+
+.form-group label {
+  color: #6c757d;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.login-form input {
+  border: 1px solid #ccc;
+  color: #505050;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 1.1rem;
+  transition: 0.2s ease-in-out;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--primaryColor);
+  box-shadow: 0 0 5px rgba(0, 172, 109, 0.4);
 }
 
 .submit-btn {
-  background-color: #008a59;
+  background-color: var(--buttonColor);
   color: #fff;
   border-radius: 8px;
   border: 2px solid #fff;
@@ -103,22 +128,25 @@
   transition: background 0.3s;
 }
 
-.submit-btn:hover, .toggle-state button:hover{
-    background-color: var(--tertiaryColor);
-    color: white;
+.submit-btn:hover,
+.toggle-state button:hover {
+  background-color: var(--tertiaryColor);
+  color: white;
 }
 
-.forgot{
-    align-self: flex-end;
-    font-size: 0.85rem;
-    color: blue;
-    margin: 0 0 10px;
-    cursor: pointer;
-    width: fit-content;
+.forgot {
+  align-self: flex-end;
+  background: #fff;
+  border: none;
+  font-size: 0.85rem;
+  color: blue;
+  margin: 0 0 10px;
+  cursor: pointer;
+  width: fit-content;
 }
 
-.forgot:hover{
-    text-decoration: underline;
+.forgot:hover {
+  text-decoration: underline;
 }
 
 .toggle-state {
@@ -130,13 +158,13 @@
   font-size: 0.95rem;
 }
 
-.toggle-state button{
-    background-color: #008a59;
-    color: #fff;
-    width: 50%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #fff;
+.toggle-state button {
+  background-color: var(--buttonColor);
+  color: #fff;
+  width: 50%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #fff;
 }
 
 .toggle-state p {
@@ -144,15 +172,15 @@
   margin-top: 20px;
 }
 
-.link-btn{
-    background: none;
-    border: none;
-    color: #008a59;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 0.95rem;
-    padding: 0;
-    transition: color 0.3s;
+.link-btn {
+  background: none;
+  border: none;
+  color: #008a59;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
+  transition: color 0.3s;
 }
 
 .link-btn:hover {

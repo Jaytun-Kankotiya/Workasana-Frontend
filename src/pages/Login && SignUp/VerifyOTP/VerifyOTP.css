@@ -1,6 +1,6 @@
 :root{
   --primaryColor: rgba(0, 100, 97, 0.463);
-  --secondaryColor: #ffdd01;
+  --buttonColor: #008080;
   --tertiaryColor: #003751;
 }
 
@@ -13,6 +13,7 @@
     border-radius: 10px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     padding: 30px 50px;
+    border: 1px solid #fff;
     width: auto;
     max-width: 400px;
 }
@@ -58,6 +59,11 @@
   text-decoration: underline;
 }
 
+.resend-otp button:hover:disabled{
+  color: #40ac86;
+  text-decoration: underline;
+}
+
 .resend-otp button:hover{
     color: rgb(96, 144, 222);
 }
@@ -96,10 +102,7 @@
 
 .otp-input {
   width: 48px;
-  height: 55px;
-   /* border: none;                  
-  border-bottom: 2px solid #ccc; 
-  border-radius: 0;  */
+  height: 60px;
   text-align: center;
   font-size: 1.3rem;
   border-radius: 8px;
@@ -113,6 +116,35 @@
     box-shadow: 0 0 6px rgba(64, 172, 134, 0.6);
 }
 
+
+.reset-pass-group{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+.reset-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.reset-field input {
+  flex: 1;
+  padding-right: 40px;
+  border: 2px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  outline: none;
+  font-size: 1rem;
+}
+
+.password-group label{
+  color: #6c757d;
+  font-size: 1rem;
+  font-weight: 600;
+}
 
 
 
