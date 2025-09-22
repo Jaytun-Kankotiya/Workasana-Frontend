@@ -10,6 +10,7 @@ export const useTask = () => useContext(TaskContext);
 const TaskProvider = (props) => {
 
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,7 +35,9 @@ const TaskProvider = (props) => {
     setLoggedIn,
     formData, 
     setFormData,
-    changeHandler
+    changeHandler,
+    loading, 
+    setLoading
   };
 
   return (

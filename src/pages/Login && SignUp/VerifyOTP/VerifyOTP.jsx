@@ -12,7 +12,6 @@ const VerifyOtp = () => {
   
   const {backendUrl, navigate} = useTask();
   const [timer, setTimer] = useState(0)
-  const [otp, setOtp] = useState("")
   const location = useLocation()
   const email = location.state?.email
 
@@ -61,7 +60,7 @@ const VerifyOtp = () => {
       const otpArray = inputRefs.current.map((e) => e.value)
       const otp = otpArray.join('')
 
-      const {data} = await axios.post(backendUrl + "/v1/auth/verify-acoount", {otp, email})
+      const {data} = await axios.post(backendUrl + "/v1/auth/verify-acoount", {otp, email}, {withCredentials: true})
 
       if(data.success){
         toast.success(data.message)
@@ -88,7 +87,6 @@ const VerifyOtp = () => {
       toast.error(error.response?.data?.message || error.message)
     }
   }
-
 
 
 

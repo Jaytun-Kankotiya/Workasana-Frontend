@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTask } from "../../../context/TaskContext";
 import "./Login.css";
 import { EyeClosed, Eye, Mail, SquareUser } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Spinner from "../../../components/Spinner";
 
 const Login = () => {
   const {
@@ -14,12 +15,20 @@ const Login = () => {
     formData,
     setFormData,
     changeHandler,
+    loading, 
+    setLoading
   } = useTask();
   const [loginState, setLoginState] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  
+
+  useEffect(() => {
+    setFormData({name: "", email: "", password: ""})
+  }, [])
 
   const formHandler = async (e) => {
     e.preventDefault();
+    setLoading(true)
 
     axios.defaults.withCredentials = true;
 
@@ -40,7 +49,6 @@ const Login = () => {
           if (otpRes.data.success) {
             toast.success("Verification OTP Sent to your Email ID");
             navigate("/verify-account", {state: {email: formData.email}});
-            // setFormData({ name: "", email: "", password: "" });
           }else{
             toast.error(otpRes.data.message)
           }
@@ -58,24 +66,25 @@ const Login = () => {
         );
 
         if (data.success) {
+          navigate("/dashboard");
           setLoggedIn(true);
           toast.success(data.message);
-          navigate("/dashboard");
         } else {
           toast.error(data.message);
         }
-        setFormData({ email: "", password: "" });
+        setFormData({ name: "", email: "", password: "" });
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
+    }finally{
+      setLoading(false)
     }
   };
 
-  console.log(formData);
-
   return (
     <div className="login-bg">
-      <div className="login-container">
+      {loading && <Spinner />}
+      <div className={loading ? "content-dull login-container" : "login-container"} >
         <div className="login-left">
           <h1>Workasana</h1>
           <h2>
@@ -146,11 +155,12 @@ const Login = () => {
               </div>
             </div>
 
-            <button type="submit" className="submit-btn">
+            <button type="submit" className="submit-btn" disabled={loading}>
               {loginState ? "Login" : "Sign Up"}
             </button>
             <button
               className="forgot"
+              type="button"
               onClick={() => navigate("/verify-email")}>
               Forgot Password?
             </button>
