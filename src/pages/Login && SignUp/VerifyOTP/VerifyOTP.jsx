@@ -6,11 +6,12 @@ import bgImage from "../../../assets/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import Spinner from "../../../components/Spinner";
 
 const VerifyOtp = () => {
 
   
-  const {backendUrl, navigate} = useTask();
+  const {backendUrl, navigate, loading, setLoading} = useTask();
   const [timer, setTimer] = useState(0)
   const location = useLocation()
   const email = location.state?.email
@@ -56,6 +57,7 @@ const VerifyOtp = () => {
 
   const otpSubmitHandler = async (e) => {
     e.preventDefault()
+    setLoading(true)
     try {
       const otpArray = inputRefs.current.map((e) => e.value)
       const otp = otpArray.join('')
@@ -70,10 +72,13 @@ const VerifyOtp = () => {
       }
     } catch (error) {
       toast.error(error.message)
+    }finally{
+      setLoading(false)
     }
   }
 
   const resendHandler = async () => {
+    setLoading(true)
     try {
       const {data} = await axios.post(backendUrl + "/v1/auth/send-verify-otp", {email}, {withCredentials: true})
 
@@ -86,14 +91,16 @@ const VerifyOtp = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || error.message)
     }
+    finally{
+      setLoading(false)
+    }
   }
-
-
 
   return (
     <div className="login-bg" style={{'background-color': '#008080'}}>
+      {loading && <Spinner />}
       <Navbar />
-      <form onSubmit={otpSubmitHandler} className="verification-container">
+      <form onSubmit={otpSubmitHandler} className={loading ? "verification-container content-dull" : "verification-container"}>
         <div className="verify-header">
           <h2>Email Verification</h2>
           <p>Please enter the OTP sent to registered Email ID</p>

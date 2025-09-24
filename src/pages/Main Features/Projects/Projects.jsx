@@ -1,7 +1,7 @@
-import Sidebar from "./Sidebar";
-import "../Main Features/Main.css";
+import Sidebar from "../Sidebar";
+import "../../Main Features/Main.css";
 
-const Teams = () => {
+const Projects = () => {
   return (
     <div className="main-container">
       <div>
@@ -16,4 +16,4 @@ const Teams = () => {
   );
 };
 
-export default Teams;
+export default Projects;

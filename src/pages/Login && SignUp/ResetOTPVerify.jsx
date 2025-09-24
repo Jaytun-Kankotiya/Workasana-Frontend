@@ -77,7 +77,7 @@ const ResetOTPVerify = () => {
   }
 
   const resendHandler = async () => {
-    // e.preventDefault()
+    setLoading(true)
     try {
       const {data} = await axios.post(backendUrl + "/v1/auth/send-reset-otp", {email}, {withCredentials: true})
       if(data.success){
@@ -89,6 +89,8 @@ const ResetOTPVerify = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message)
+    }finally{
+      setLoading(false)
     }
   }
 

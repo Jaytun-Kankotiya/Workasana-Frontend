@@ -4,6 +4,7 @@ import { useTask } from "../../context/TaskContext";
 import { EyeClosed, Eye } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Spinner from "../../components/Spinner";
 
 const ResetPassword = () => {
   const { backendUrl, navigate, loading, setLoading } = useTask();
@@ -16,6 +17,7 @@ const ResetPassword = () => {
 
   const passwordSubmitHandler = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (!password.trim() || !confirmPassword.trim()) {
       toast.error("Please fill in both password fields");
     }
@@ -43,16 +45,20 @@ const ResetPassword = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
+    }finally{
+      setLoading(false)
     }
   };
 
   return (
+    <>
     <div className="login-bg" style={{ "background-color": "#008080" }}>
+      {loading && <Spinner />}
       <Navbar />
-      <div className="reset-header">
+      <div className={loading ? "reset-header content-dull" : "reset-header"}>
         <div className="verify-header">
           <h2>Reset Your Password</h2>
-          <p>Please enter and confirm your new password.”</p>
+          <p>Please enter and confirm your new password.</p>
         </div>
 
         <form onSubmit={passwordSubmitHandler} className="reset-pass-group">
@@ -113,6 +119,7 @@ const ResetPassword = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

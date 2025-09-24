@@ -1,7 +1,7 @@
 import Sidebar from "./Sidebar";
 import "../Main Features/Main.css";
 
-const Teams = () => {
+const Setting = () => {
   return (
     <div className="main-container">
       <div>
@@ -16,4 +16,4 @@ const Teams = () => {
   );
 };
 
-export default Teams;
+export default Setting;

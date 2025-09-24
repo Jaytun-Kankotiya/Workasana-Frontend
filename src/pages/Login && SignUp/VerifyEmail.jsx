@@ -31,7 +31,6 @@ const VerifyEmail = () => {
   }
 
 
-
   return (
     <div className="login-bg" style={{ "background-color": "#008080" }}>
       {loading && <Spinner />}
