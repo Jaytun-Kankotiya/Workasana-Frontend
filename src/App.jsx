@@ -12,6 +12,7 @@ import Teams from "./pages/Main Features/Team";
 import Tasks from './pages/Main Features/Tasks/Tasks'
 import Report from "./pages/Main Features/Report"
 import Settings from "./pages/Main Features/Settings"
+import ProjectDetails from "./pages/Main Features/Projects/ProjectDetails";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/project-details/:id" element={<ProjectDetails />} />
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/report" element={<Report />} />

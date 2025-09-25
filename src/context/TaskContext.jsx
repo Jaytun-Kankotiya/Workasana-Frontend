@@ -18,6 +18,8 @@ const TaskProvider = (props) => {
   const [owners, setOwners] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [filterTask, setFilterTask] = useState("");
+  const [filterProject, setFilterProject] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -98,6 +100,59 @@ const TaskProvider = (props) => {
     }
   };
 
+
+  const getDueDate = (createdAt, timeToComplete) => {
+    const createdDate = new Date(createdAt);
+    createdDate.setDate(createdDate.getDate() + timeToComplete);
+
+    const day = createdDate.getDate();
+    const month = createdDate.toLocaleString("default", { month: "long" });
+    const year = createdDate.getFullYear();
+
+    const getOriginal = (n) => {
+      if (n > 3 && n < 21) return "th";
+      switch (n % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+    return `${day}${getOriginal(day)} ${month} ${year}`;
+  };
+
+  const statusColor = {
+    "To Do": {
+      background: "#3498db1c",
+      color: "#3498db",
+    },
+    "In Progress": {
+      background: "#f18f0f1c",
+      color: "#fdab07ff",
+    },
+    Completed: {
+      background: "#2ecc70cd",
+      color: "#fff",
+    },
+    Blocked: {
+      background: "#e74c3c1c",
+      color: "#e74c3c",
+    },
+  };
+
+
+  const filteredTask = filterTask
+    ? tasks.filter((task) => task.status === filterTask)
+    : tasks;
+
+  const filteredProject = filterProject
+    ? projects.filter((project) => project.status === filterProject)
+    : projects;
+
     // useEffect(() => {
     //   fetchProjects()
     //   fetchTasks()
@@ -120,7 +175,10 @@ const TaskProvider = (props) => {
     fetchProjects, projects, setProjects,
     fetchTasks, tasks, setTasks,
     fetchTeams, teams, setTeams,
-    fetchUsers, owners, setOwners
+    fetchUsers, owners, setOwners,
+    filteredTask, filteredProject,
+    filterTask, setFilterTask,
+    filterProject, setFilterProject, getDueDate, statusColor
   };
 
   return (

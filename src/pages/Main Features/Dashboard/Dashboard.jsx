@@ -24,9 +24,12 @@ const Dashboard = () => {
     fetchTasks,
     addTask,
     setAddTask,
+    filteredTask,
+    filteredProject,
+    filterTask, setFilterTask,
+    filterProject, setFilterProject, getDueDate, statusColor
   } = useTask();
-  const [filterTask, setFilterTask] = useState("");
-  const [filterProject, setFilterProject] = useState("");
+
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -34,37 +37,6 @@ const Dashboard = () => {
     fetchTasks();
   }, []);
 
-  const getDueDate = (createdAt, timeToComplete) => {
-    const createdDate = new Date(createdAt);
-    createdDate.setDate(createdDate.getDate() + timeToComplete);
-
-    const day = createdDate.getDate();
-    const month = createdDate.toLocaleString("default", { month: "long" });
-    const year = createdDate.getFullYear();
-
-    const getOriginal = (n) => {
-      if (n > 3 && n < 21) return "th";
-      switch (n % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
-    return `${day}${getOriginal(day)} ${month} ${year}`;
-  };
-
-  const filteredTask = filterTask
-    ? tasks.filter((task) => task.status === filterTask)
-    : tasks;
-
-  const filteredProject = filterProject
-    ? projects.filter((project) => project.status === filterProject)
-    : projects;
 
   const searchedTasks = search
     ? filteredTask.filter((task) =>
@@ -77,25 +49,7 @@ const Dashboard = () => {
         project.name.toLowerCase().includes(search.toLowerCase())
       )
     : filteredProject;
-
-  const statusColor = {
-    "To Do": {
-      background: "#3498db1c",
-      color: "#3498db",
-    },
-    "In Progress": {
-      background: "#f18f0f1c",
-      color: "#fdab07ff",
-    },
-    Completed: {
-      background: "#2ecc70cd",
-      color: "#fff",
-    },
-    Blocked: {
-      background: "#e74c3c1c",
-      color: "#e74c3c",
-    },
-  };
+    
 
   return (
     <div

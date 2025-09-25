@@ -1,0 +1,234 @@
+import { useParams } from "react-router-dom";
+import { useTask } from "../../../context/TaskContext";
+import { useEffect, useMemo, useState } from "react";
+import Sidebar from "../Sidebar";
+import Spinner from "../../../components/Spinner";
+import { Plus } from "lucide-react";
+import AddProject from "./AddProject";
+import { Flag } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const ProjectDetails = () => {
+  const {
+    fetchProjects,
+    fetchTasks,
+    projects,
+    tasks,
+    loading,
+    addProject,
+    setAddProject,
+    getDueDate,
+    statusColor,
+    backendUrl,
+    setLoading
+  } = useTask();
+  const [sort, setSort] = useState("");
+  const [projectDetails, setProjectDetails] = useState(null);
+  const { id } = useParams();
+
+  const fetchProjectById = async () => {
+    setLoading(true)
+    try {
+        const {data} = await axios.get(`${backendUrl}/v1/projects/${id}`)
+        if(data.success){
+            setProjectDetails(data.data)
+        }else{
+            toast.error(data.message)
+        }
+    } catch (error) {
+        toast.error(error.response?.data?.message || error.message)
+    }finally{
+        setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProjectById()
+    fetchTasks();
+  }, [id]);
+
+  const tasksList = useMemo(() => {
+    if (!projectDetails) return []
+    return tasks.filter((task) => task?.project?._id === projectDetails._id)
+  }, [tasks, projectDetails]) 
+
+  const sortHandler = (e) => {
+    setSort(e.target.value);
+  };
+
+  function TaskTable() {
+    const getPriority = (createdAt, timeToComplete) => {
+      const dueDays =
+        Math.ceil(
+          new Date(createdAt).getTime() +
+            timeToComplete * 24 * 60 * 60 * 1000 -
+            Date.now()
+        ) /
+        (1000 * 60 * 60 * 24);
+
+      if (dueDays < 3) return { label: "High", className: "priority-high" };
+      if (dueDays <= 5)
+        return { label: "Medium", className: "priority-medium" };
+      return { label: "Low", className: "priority-low" };
+    };
+
+    const colors = [
+      "#f39c12",
+      "#e74c3c",
+      "#8e44ad",
+      "#3498db",
+      "#16a085",
+      "#d35400",
+    ];
+
+    return (
+      <table className="task-table">
+        <thead>
+          <tr>
+            <th>TASKS</th>
+            <th>OWNER</th>
+            <th>PRIORITY</th>
+            <th>DUE ON</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasksList && tasksList.length > 0 ? (
+            <>
+              {tasksList.map((task, index) => {
+                const priority = getPriority(
+                  task.createdAt,
+                  task.timeToComplete
+                );
+                return (
+                  <tr key={task._id}>
+                    <td>{task.name}</td>
+                    <td>
+                      {task.owners && task.owners.length > 0 ? (
+                        <div className="owners-container">
+                          {task.owners.map((owner, inx) => {
+                            const initials = owner.name
+                              .split(" ")
+                              .map((n) => n[0].toUpperCase())
+                              .join("");
+                            const bgColor = colors[inx % colors.length];
+
+                            return (
+                              <div
+                                key={inx}
+                                className="owner-avtar"
+                                style={{ backgroundColor: bgColor }}
+                                title={owner}>
+                                {initials}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <span className="no-owner">No Owner Found</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className={`priority-badge ${priority.className}`}>
+                        <Flag /> {priority.label}
+                      </span>
+                    </td>
+                    <td className="due-date">
+                      {getDueDate(task.createdAt, task.timeToComplete)}
+                    </td>
+                    <td>
+                      <p
+                        className="status-badge"
+                        style={statusColor[task.status]}>
+                        {task.status}
+                      </p>
+                    </td>
+                  </tr>
+                );
+              })}
+            </>
+          ) : (
+            <tr>
+              <td colSpan={5} className="no-task">
+                No Task Found
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    );
+  }
+
+  return (
+    <div className="main-container">
+      <div>
+        <Sidebar />
+      </div>
+      {loading && <Spinner />}
+      {addProject && <AddProject />}
+      <div className="right-container">
+        {projectDetails ? (
+            <div>
+          <h2>{projectDetails.name}</h2>
+          <p>{projectDetails.description}</p>
+        </div>
+        ) : (
+            <Spinner />
+        )}
+
+        <div className="dashboard-title">
+          <div className="dashboard-title-group">
+            <div className="sort-options">
+              <p>Sort By:</p>
+              <input
+                onChange={sortHandler}
+                type="radio"
+                id="low-high"
+                name="sort"
+                value="low-high"
+              />
+              <label htmlFor="low-high">Priority Low → High</label>
+
+              <input
+                onChange={sortHandler}
+                type="radio"
+                id="high-low"
+                name="sort"
+                value="high-low"
+              />
+              <label htmlFor="high-low">Priority High → Low</label>
+
+              <input
+                onChange={sortHandler}
+                type="radio"
+                id="newest"
+                name="sort"
+                value="newest"
+              />
+              <label htmlFor="newest">Newest First</label>
+
+              <input
+                onChange={sortHandler}
+                type="radio"
+                id="oldest"
+                name="sort"
+                value="oldest"
+              />
+              <label htmlFor="oldest">Oldest First</label>
+            </div>
+          </div>
+
+          <button type="button" onClick={() => setAddProject(true)}>
+            <Plus size={18} />
+            New Project
+          </button>
+        </div>
+
+        <div>{TaskTable()}</div>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectDetails;

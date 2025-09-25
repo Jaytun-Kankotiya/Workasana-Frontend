@@ -117,8 +117,8 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; 
-  background-color: #f9f9f9; 
+  height: 200px;
+  background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin: 30px 0;
@@ -126,6 +126,120 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .no-tasks {
   font-size: 1.2rem;
-  color: #555; 
+  color: #555;
   font-weight: 500;
+}
+
+.project-link {
+  text-decoration: none;
+}
+
+/* Project Details Page */
+.sort-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.sort-options p {
+  font-weight: 500;
+  margin: 0;
+}
+
+.sort-options input[type="radio"] {
+  display: none;
+}
+
+.sort-options label {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.sort-options label:hover {
+  background: #f1f1f1;
+}
+
+.sort-options input[type="radio"]:checked + label {
+  background: #2c6975;
+  color: #fff;
+  border-color: #2c6975;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.task-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.task-table td {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.task-table thead {
+  background: #2c6975;
+  color: #fff;
+}
+
+.priority-badge {
+  padding: 8px 10px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.priority-high {
+  background: #e74c3c1a;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+}
+
+.priority-medium {
+  background: #f39c121a;
+  color: #f39c12;
+  border: 1px solid #f39c12;
+}
+
+.priority-low {
+  background: #27ae601a;
+  color: #27ae60;
+  border: 1px solid #27ae60;
+}
+
+.status-badge {
+  display: inline;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.no-task {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+
+.no-owner {
+  color: #aaa;
+  font-style: italic;
 }
