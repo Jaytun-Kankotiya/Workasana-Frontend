@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const TaskContext = createContext();
 
@@ -14,7 +15,9 @@ const TaskProvider = (props) => {
   const [addProject, setAddProject] = useState(false)
   const [addTask, setAddTask] = useState(false)
   const [projects, setProjects] = useState([]);
+  const [owners, setOwners] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -63,6 +66,38 @@ const TaskProvider = (props) => {
       }
     };
 
+    const fetchTeams = async () => {
+      setLoading(true)
+      try {
+        const {data} = await axios.get(backendUrl + '/v1/teams')
+        if(data.success){
+          setTeams(data.data)
+        }else{
+          toast.error(data.message)
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.message || error.message)
+      }finally{
+        setLoading(false)
+      }
+    }
+
+    const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(backendUrl + "/v1/auth/users");
+      if (data.success) {
+        setOwners(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
     // useEffect(() => {
     //   fetchProjects()
     //   fetchTasks()
@@ -83,7 +118,9 @@ const TaskProvider = (props) => {
     addTask, 
     setAddTask,
     fetchProjects, projects, setProjects,
-    tasks, setTasks, fetchTasks,
+    fetchTasks, tasks, setTasks,
+    fetchTeams, teams, setTeams,
+    fetchUsers, owners, setOwners
   };
 
   return (

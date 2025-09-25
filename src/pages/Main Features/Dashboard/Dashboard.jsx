@@ -1,13 +1,12 @@
 import Sidebar from "../Sidebar";
 import "../../Main Features/Main.css";
 import "./Dashboard.css";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTask } from "../../../context/TaskContext";
 import Spinner from "../../../components/Spinner";
-import axios from "axios";
-import { toast } from "react-toastify";
 import AddProject from "../Projects/AddProject";
+import AddTask from "../Tasks/AddTask";
 
 const Dashboard = () => {
   const {
@@ -22,10 +21,14 @@ const Dashboard = () => {
     setProjects,
     tasks,
     setTasks,
-    fetchTasks
+    fetchTasks,
+    addTask,
+    setAddTask,
   } = useTask();
+  const [filterTask, setFilterTask] = useState("");
+  const [filterProject, setFilterProject] = useState("");
+  const [search, setSearch] = useState("");
 
-  
   useEffect(() => {
     fetchProjects();
     fetchTasks();
@@ -55,28 +58,80 @@ const Dashboard = () => {
     return `${day}${getOriginal(day)} ${month} ${year}`;
   };
 
+  const filteredTask = filterTask
+    ? tasks.filter((task) => task.status === filterTask)
+    : tasks;
+
+  const filteredProject = filterProject
+    ? projects.filter((project) => project.status === filterProject)
+    : projects;
+
+  const searchedTasks = search
+    ? filteredTask.filter((task) =>
+        task.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : filteredTask;
+
+  const searchedProjects = search
+    ? filteredProject.filter((project) =>
+        project.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : filteredProject;
+
+  const statusColor = {
+    "To Do": {
+      background: "#3498db1c",
+      color: "#3498db",
+    },
+    "In Progress": {
+      background: "#f18f0f1c",
+      color: "#fdab07ff",
+    },
+    Completed: {
+      background: "#2ecc70cd",
+      color: "#fff",
+    },
+    Blocked: {
+      background: "#e74c3c1c",
+      color: "#e74c3c",
+    },
+  };
+
   return (
-    <div className="main-container">
+    <div
+      className={
+        addProject || addTask || loading
+          ? "main-container main-content-dull"
+          : "main-container"
+      }>
       {loading && <Spinner />}
       {addProject && <AddProject />}
+      {addTask && <AddTask />}
       <div>
         <Sidebar />
       </div>
       <div className="right-container">
         <div className="searchbox">
-          <input type="text" placeholder="Search projects..." />
-          <Search />
+          <input
+          value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            type="text"
+            placeholder="Search projects or tasks..."
+          />
+          {search ? <X onClick={() => setSearch('')} /> : <Search />}
         </div>
 
         <div className="dashboard-title">
           <div className="dashboard-title-group">
             <h2>Projects</h2>
-            <select name="">
+            <select onChange={(e) => setFilterProject(e.target.value)}>
               <option value="" defaultChecked>
                 Filter
               </option>
+              <option value="To Do">To Do</option>
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
+              <option value="Blocked">Blocked</option>
             </select>
           </div>
           <button type="button" onClick={() => setAddProject(true)}>
@@ -86,24 +141,31 @@ const Dashboard = () => {
         </div>
 
         <div>
-          {projects && projects.length > 0 ? (
+          {searchedProjects && searchedProjects.length > 0 ? (
             <div className="project-container">
-              {projects.map((project, index) => (
+              {searchedProjects.map((project, index) => (
                 <div key={index} className="project-card">
+                  <p
+                    className="post-status"
+                    style={statusColor[project.status]}>
+                    {project.status}
+                  </p>
                   <h4>{project.name}</h4>
                   <p>{project.description}</p>
                 </div>
               ))}
             </div>
           ) : (
-            <div>No Projects Found</div>
+            <div className="no-tasks-container">
+              <p className="no-tasks">No Projects Found</p>
+            </div>
           )}
         </div>
 
         <div className="dashboard-title">
           <div className="dashboard-title-group">
             <h2>My Tasks</h2>
-            <select name="">
+            <select onChange={(e) => setFilterTask(e.target.value)}>
               <option value="" defaultChecked>
                 Filter
               </option>
@@ -111,29 +173,20 @@ const Dashboard = () => {
               <option value="Completed">Completed</option>
             </select>
           </div>
-          <button>
+          <button type="button" onClick={() => setAddTask(true)}>
             <Plus size={18} />
             New Task
           </button>
         </div>
 
         <div>
-          {tasks && tasks.length > 0 ? (
+          {searchedTasks && searchedTasks.length > 0 ? (
             <div className="project-container">
-              {tasks.map((task, index) => {
+              {searchedTasks.map((task, index) => {
                 const dueDate = getDueDate(task.createdAt, task.timeToComplete);
                 return (
                   <div key={index} className="task-card">
-                    <p
-                      className="task-status"
-                      style={{
-                        background:
-                          task.status === "In Progress"
-                            ? "#f18f0f1c"
-                            : "#2ecc70cd",
-                        color:
-                          task.status === "In Progress" ? "#fdab07ff" : "#fff",
-                      }}>
+                    <p className="task-status" style={statusColor[task.status]}>
                       {task.status}
                     </p>
                     <h4>{task.name}</h4>
@@ -174,7 +227,9 @@ const Dashboard = () => {
               })}
             </div>
           ) : (
-            <div>No Tasks Found</div>
+            <div className="no-tasks-container">
+              <p className="no-tasks">No Tasks Found</p>
+            </div>
           )}
         </div>
       </div>

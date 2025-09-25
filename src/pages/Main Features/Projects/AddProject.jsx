@@ -4,24 +4,32 @@ import "../Projects/Project.css";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { color } from "chart.js/helpers";
 
 const AddProject = () => {
   const { addProject, setAddProject, backendUrl, fetchProjects } = useTask();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+
+  const statusList = ["To Do", "In Progress", "Completed", "Blocked"];
 
   const createHandler = async () => {
     try {
-        const {data} = await axios.post(backendUrl + '/v1/projects', {name, description}, {withCredentials: true})
-        if(data.success){
-            toast.success(data.message)
-            await fetchProjects()
-            setAddProject(false)
-        }else{
-            toast.error(data.message)
-        }
+      const { data } = await axios.post(
+        backendUrl + "/v1/projects",
+        { name, description, status },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        await fetchProjects();
+        setAddProject(false);
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
-        toast.error(error.response?.data?.message || error.message)
+      toast.error(error.response?.data?.message || error.message);
     }
   };
 
@@ -46,6 +54,19 @@ const AddProject = () => {
             type="text"
             placeholder="Enter Project Name"
           />
+        </div>
+
+        <div className="form-group">
+          <label>Select Status</label>
+          <select onChange={(e) => setStatus(e.target.value)}>
+            <option value="" defaultChecked>
+              Select Status
+            </option>
+            {statusList &&
+              statusList.map((status) => (
+                <option value={status}>{status}</option>
+              ))}
+          </select>
         </div>
 
         <div className="form-group">

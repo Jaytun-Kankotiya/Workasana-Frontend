@@ -151,8 +151,19 @@
   transition: all 0.2s ease-in-out;
 }
 
-.task-card:hover{
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+.task-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.post-status {
+  align-self: flex-start;
+  width: fit-content;
+  padding: 4px 10px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  color: #000;
+  font-weight: 800;
+  font-size: 0.9rem;
 }
 
 .task-status {
@@ -165,40 +176,47 @@
   font-size: 0.9rem;
 }
 
-.task-card h4{
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2c3e50;
+.project-card h4 {
+  margin: 15px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
-.project-card p{
-    margin: 0;
-    font-size: 0.9rem;
-    color: #555;
+.task-card h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
-.due-date{
-    margin: 10px 0;
+.project-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
 }
 
-.owners-container{
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.due-date {
+  margin: 10px 0;
 }
 
-.owner-avtar{
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #fff;
-    border: 2px solid #fff;
-    position: relative;
-    z-index: 1;
+.owners-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.owner-avtar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #fff;
+  border: 2px solid #fff;
+  position: relative;
+  z-index: 1;
 }
