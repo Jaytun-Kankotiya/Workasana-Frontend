@@ -14,6 +14,7 @@ const TaskProvider = (props) => {
   const [loading, setLoading] = useState(false)
   const [addProject, setAddProject] = useState(false)
   const [addTask, setAddTask] = useState(false)
+  const [addTeam, setAddTeam] = useState(false);
   const [projects, setProjects] = useState([]);
   const [owners, setOwners] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -153,6 +154,24 @@ const TaskProvider = (props) => {
     ? projects.filter((project) => project.status === filterProject)
     : projects;
 
+
+    const fetchTeamById = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(backendUrl + `/v1/teams/${id}`);
+      if (data.success) {
+        setTeamDetails(data.data);
+      } else {
+        toast.error(data.messaage);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || error.messaage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
     // useEffect(() => {
     //   fetchProjects()
     //   fetchTasks()
@@ -161,24 +180,21 @@ const TaskProvider = (props) => {
   const value = {
     backendUrl,
     navigate,
-    loggedIn,
-    setLoggedIn,
-    formData, 
-    setFormData,
+    loggedIn, setLoggedIn,
+    formData, setFormData,
     changeHandler,
-    loading, 
-    setLoading,
-    addProject, 
-    setAddProject,
-    addTask, 
-    setAddTask,
+    loading, setLoading,
+    addProject, setAddProject,
+    addTask, setAddTask,
+    addTeam, setAddTeam,
     fetchProjects, projects, setProjects,
     fetchTasks, tasks, setTasks,
     fetchTeams, teams, setTeams,
     fetchUsers, owners, setOwners,
     filteredTask, filteredProject,
     filterTask, setFilterTask,
-    filterProject, setFilterProject, getDueDate, statusColor
+    filterProject, setFilterProject, getDueDate, statusColor,
+
   };
 
   return (

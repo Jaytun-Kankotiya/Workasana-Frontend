@@ -7,6 +7,7 @@ import { useTask } from "../../../context/TaskContext";
 import Spinner from "../../../components/Spinner";
 import AddProject from "../Projects/AddProject";
 import AddTask from "../Tasks/AddTask";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const {
@@ -49,7 +50,7 @@ const Dashboard = () => {
         project.name.toLowerCase().includes(search.toLowerCase())
       )
     : filteredProject;
-    
+
 
   return (
     <div
@@ -98,7 +99,7 @@ const Dashboard = () => {
           {searchedProjects && searchedProjects.length > 0 ? (
             <div className="project-container">
               {searchedProjects.map((project, index) => (
-                <div key={index} className="project-card">
+                <Link to={project?._id ? `/project-details/${project._id}` : "#"} key={index} className="project-card">
                   <p
                     className="post-status"
                     style={statusColor[project.status]}>
@@ -106,7 +107,7 @@ const Dashboard = () => {
                   </p>
                   <h4>{project.name}</h4>
                   <p>{project.description}</p>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (

@@ -8,11 +8,12 @@ import VerifyEmail from "./pages/Login && SignUp/VerifyEmail";
 import { ToastContainer } from "react-toastify";
 import Dashboard from "./pages/Main Features/Dashboard/Dashboard";
 import Projects from "./pages/Main Features/Projects/Projects";
-import Teams from "./pages/Main Features/Team";
+import Teams from "./pages/Main Features/Teams/Team";
 import Tasks from './pages/Main Features/Tasks/Tasks'
 import Report from "./pages/Main Features/Report"
 import Settings from "./pages/Main Features/Settings"
 import ProjectDetails from "./pages/Main Features/Projects/ProjectDetails";
+import TeamDetails from "./pages/Main Features/Teams/TeamDetails";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/project-details/:id" element={<ProjectDetails />} />
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/team-details/:id" element={<TeamDetails />} />
         <Route path="/report" element={<Report />} />
         <Route path="/setting" element={<Settings />} />
       </Routes>

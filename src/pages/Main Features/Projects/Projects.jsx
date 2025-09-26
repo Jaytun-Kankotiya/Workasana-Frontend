@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Spinner from "../../../components/Spinner";
 import AddProject from "./AddProject";
 import { Link } from "react-router-dom";
+import "../Dashboard/Dashboard.css"
 
 const Projects = () => {
   const {
@@ -20,8 +21,6 @@ const Projects = () => {
     setFilterProject,
     filteredProject,
   } = useTask();
-
-  // const [filterProject, setFilterProject] = useState();
 
   useEffect(() => {
     fetchProjects();
@@ -77,8 +76,7 @@ const Projects = () => {
           {filteredProject && filteredProject.length > 0 ? (
             <div className="project-container">
               {filteredProject.map((project, index) => (
-                <Link key={project._id || index} className="project-link"  to={project?._id ? `/project-details/${project._id}` : "#"}>
-                  <div className="project-card">
+                <Link key={project._id || index} className="project-card"  to={project?._id ? `/project-details/${project._id}` : "#"}>
                     <p
                       className="post-status"
                       style={statusColor[project.status]}>
@@ -86,7 +84,6 @@ const Projects = () => {
                     </p>
                     <h4>{project.name}</h4>
                     <p>{project.description}</p>
-                  </div>
                 </Link>
               ))}
             </div>

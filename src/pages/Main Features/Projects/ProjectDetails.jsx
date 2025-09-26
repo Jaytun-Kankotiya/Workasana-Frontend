@@ -8,6 +8,8 @@ import AddProject from "./AddProject";
 import { Flag } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { SlidersHorizontal, CircleArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ProjectDetails = () => {
   const {
@@ -21,58 +23,77 @@ const ProjectDetails = () => {
     getDueDate,
     statusColor,
     backendUrl,
-    setLoading
+    setLoading,
   } = useTask();
   const [sort, setSort] = useState("");
   const [projectDetails, setProjectDetails] = useState(null);
   const { id } = useParams();
 
   const fetchProjectById = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-        const {data} = await axios.get(`${backendUrl}/v1/projects/${id}`)
-        if(data.success){
-            setProjectDetails(data.data)
-        }else{
-            toast.error(data.message)
-        }
+      const { data } = await axios.get(`${backendUrl}/v1/projects/${id}`);
+      if (data.success) {
+        setProjectDetails(data.data);
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
-        toast.error(error.response?.data?.message || error.message)
-    }finally{
-        setLoading(false)
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchProjectById()
+    fetchProjectById();
     fetchTasks();
   }, [id]);
 
+  const getPriority = (task) => {
+    const dueDays =
+      Math.ceil(
+        new Date(task.createdAt).getTime() +
+          task.timeToComplete * 24 * 60 * 60 * 1000 -
+          Date.now()
+      ) /
+      (1000 * 60 * 60 * 24);
+
+    if (dueDays < 3)
+      return { label: "High", className: "priority-high", value: 3 };
+    if (dueDays <= 5)
+      return { label: "Medium", className: "priority-medium", value: 2 };
+    return { label: "Low", className: "priority-low", value: 1 };
+  };
+
   const tasksList = useMemo(() => {
-    if (!projectDetails) return []
-    return tasks.filter((task) => task?.project?._id === projectDetails._id)
-  }, [tasks, projectDetails]) 
+    if (!projectDetails || !tasks) return [];
+
+    const filtered = tasks.filter(
+      (task) => task?.project?._id === projectDetails._id
+    );
+
+    return [...filtered].sort((a, b) => {
+      switch (sort) {
+        case "low-high":
+          return getPriority(a).value - getPriority(b).value;
+        case "high-low":
+          return getPriority(b).value - getPriority(a).value;
+        case "newest":
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        case "oldest":
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        default:
+          return 0;
+      }
+    });
+  }, [tasks, projectDetails, sort]);
 
   const sortHandler = (e) => {
     setSort(e.target.value);
   };
 
   function TaskTable() {
-    const getPriority = (createdAt, timeToComplete) => {
-      const dueDays =
-        Math.ceil(
-          new Date(createdAt).getTime() +
-            timeToComplete * 24 * 60 * 60 * 1000 -
-            Date.now()
-        ) /
-        (1000 * 60 * 60 * 24);
-
-      if (dueDays < 3) return { label: "High", className: "priority-high" };
-      if (dueDays <= 5)
-        return { label: "Medium", className: "priority-medium" };
-      return { label: "Low", className: "priority-low" };
-    };
-
     const colors = [
       "#f39c12",
       "#e74c3c",
@@ -97,10 +118,7 @@ const ProjectDetails = () => {
           {tasksList && tasksList.length > 0 ? (
             <>
               {tasksList.map((task, index) => {
-                const priority = getPriority(
-                  task.createdAt,
-                  task.timeToComplete
-                );
+                const priority = getPriority(task);
                 return (
                   <tr key={task._id}>
                     <td>{task.name}</td>
@@ -168,19 +186,25 @@ const ProjectDetails = () => {
       {loading && <Spinner />}
       {addProject && <AddProject />}
       <div className="right-container">
+        <Link className="backarrow-container" to="/projects">
+          <span className="back-icon"><CircleArrowLeft /></span>
+          <span className="back-text">Back To Projects</span>
+        </Link>
         {projectDetails ? (
-            <div>
-          <h2>{projectDetails.name}</h2>
-          <p>{projectDetails.description}</p>
-        </div>
+          <div className="project-header">
+            <h2 className="project-title">{projectDetails.name}</h2>
+            <p className="project-description">{projectDetails.description}</p>
+          </div>
         ) : (
-            <Spinner />
+          <Spinner />
         )}
 
         <div className="dashboard-title">
           <div className="dashboard-title-group">
             <div className="sort-options">
-              <p>Sort By:</p>
+              <label>
+                SORT BY <SlidersHorizontal size={20} />
+              </label>
               <input
                 onChange={sortHandler}
                 type="radio"

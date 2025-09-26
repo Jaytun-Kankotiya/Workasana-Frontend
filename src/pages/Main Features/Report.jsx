@@ -8,8 +8,15 @@ const Report = () => {
         <Sidebar />
       </div>
       <div className="right-container">
-        <div className="d-flex">
-          <input type="text" placeholder="Search" />
+
+        <div className="dashboard-title">
+          <div className="dashboard-title-group">
+            <h2>Report Overview</h2>
+          </div>
+        </div>
+
+        <div>
+          
         </div>
       </div>
     </div>

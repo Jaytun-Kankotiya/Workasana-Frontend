@@ -1,5 +1,5 @@
 .right-container {
-  padding: 40px 30px;
+  padding: 15px 30px;
   padding-right: 50px;
   width: 100%;
   background: #f9fafa;
@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin: 20px 0;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -101,10 +102,12 @@
   margin-top: 30px;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
+  align-items: stretch;
 }
 
 .project-card {
   flex: 0 0 320px;
+  text-decoration: none;
   border: 1px solid #e0e0e0;
   padding: 20px;
   border-radius: 12px;
@@ -141,6 +144,7 @@
 
 .task-card {
   border: 1px solid #e0e0e0;
+  text-decoration: none;
   border-radius: 12px;
   padding: 15px 20px;
   background-color: #fff;
@@ -219,4 +223,49 @@
   border: 2px solid #fff;
   position: relative;
   z-index: 1;
+}
+
+.teamDetails-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.team-header {
+  margin-bottom: 20px;
+}
+
+.team-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6c757d; 
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.team-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50c6; 
+  margin: 0;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.member-name{
+  font-size: 15px;
+  font-weight: 500;
+  color: #2c3e50;
 }
