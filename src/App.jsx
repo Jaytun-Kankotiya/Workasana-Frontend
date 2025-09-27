@@ -14,6 +14,7 @@ import Report from "./pages/Main Features/Report"
 import Settings from "./pages/Main Features/Settings"
 import ProjectDetails from "./pages/Main Features/Projects/ProjectDetails";
 import TeamDetails from "./pages/Main Features/Teams/TeamDetails";
+import TaskDetails from "./pages/Main Features/Tasks/TaskDetails";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/project-details/:id" element={<ProjectDetails />} />
         <Route path="/tasks" element={<Tasks />} />
+        <Route path="/task-details/:id" element={<TaskDetails />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/team-details/:id" element={<TeamDetails />} />
         <Route path="/report" element={<Report />} />

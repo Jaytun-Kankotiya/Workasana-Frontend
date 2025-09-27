@@ -145,6 +145,9 @@ const TaskProvider = (props) => {
     },
   };
 
+    const colors = [ "#f39c12", "#e74c3c", "#8e44ad", "#3498db", "#16a085", "#d35400"];
+
+
 
   const filteredTask = filterTask
     ? tasks.filter((task) => task.status === filterTask)
@@ -179,7 +182,7 @@ const TaskProvider = (props) => {
 
   const value = {
     backendUrl,
-    navigate,
+    navigate, colors,
     loggedIn, setLoggedIn,
     formData, setFormData,
     changeHandler,
@@ -191,9 +194,9 @@ const TaskProvider = (props) => {
     fetchTasks, tasks, setTasks,
     fetchTeams, teams, setTeams,
     fetchUsers, owners, setOwners,
-    filteredTask, filteredProject,
-    filterTask, setFilterTask,
-    filterProject, setFilterProject, getDueDate, statusColor,
+    filteredTask, filterTask, setFilterTask,
+    filterProject, filteredProject, setFilterProject,
+    getDueDate, statusColor,
 
   };
 

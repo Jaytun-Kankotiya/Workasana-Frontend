@@ -27,8 +27,13 @@ const Dashboard = () => {
     setAddTask,
     filteredTask,
     filteredProject,
-    filterTask, setFilterTask,
-    filterProject, setFilterProject, getDueDate, statusColor
+    filterTask,
+    setFilterTask,
+    filterProject,
+    setFilterProject,
+    getDueDate,
+    statusColor,
+    colors
   } = useTask();
 
   const [search, setSearch] = useState("");
@@ -37,7 +42,6 @@ const Dashboard = () => {
     fetchProjects();
     fetchTasks();
   }, []);
-
 
   const searchedTasks = search
     ? filteredTask.filter((task) =>
@@ -50,7 +54,6 @@ const Dashboard = () => {
         project.name.toLowerCase().includes(search.toLowerCase())
       )
     : filteredProject;
-
 
   return (
     <div
@@ -68,12 +71,12 @@ const Dashboard = () => {
       <div className="right-container">
         <div className="searchbox">
           <input
-          value={search}
+            value={search}
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search projects or tasks..."
           />
-          {search ? <X onClick={() => setSearch('')} /> : <Search />}
+          {search ? <X onClick={() => setSearch("")} /> : <Search />}
         </div>
 
         <div className="dashboard-title">
@@ -99,7 +102,10 @@ const Dashboard = () => {
           {searchedProjects && searchedProjects.length > 0 ? (
             <div className="project-container">
               {searchedProjects.map((project, index) => (
-                <Link to={project?._id ? `/project-details/${project._id}` : "#"} key={index} className="project-card">
+                <Link
+                  to={project?._id ? `/project-details/${project._id}` : "#"}
+                  key={index}
+                  className="project-card">
                   <p
                     className="post-status"
                     style={statusColor[project.status]}>
@@ -140,7 +146,7 @@ const Dashboard = () => {
               {searchedTasks.map((task, index) => {
                 const dueDate = getDueDate(task.createdAt, task.timeToComplete);
                 return (
-                  <div key={index} className="task-card">
+                  <Link key={index} className="task-card" to={`/task-details/${task._id}`}>
                     <p className="task-status" style={statusColor[task.status]}>
                       {task.status}
                     </p>
@@ -149,14 +155,6 @@ const Dashboard = () => {
                     <div className="owners-container">
                       {task.owners && task.owners.length > 0 ? (
                         task.owners.map((owner, inx) => {
-                          const colors = [
-                            "#f39c12",
-                            "#e74c3c",
-                            "#8e44ad",
-                            "#3498db",
-                            "#16a085",
-                            "#d35400",
-                          ];
                           const initials = owner.name
                             .split(" ")
                             .map((n) => n[0].toUpperCase())
@@ -177,7 +175,7 @@ const Dashboard = () => {
                         <span>No Owners</span>
                       )}
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

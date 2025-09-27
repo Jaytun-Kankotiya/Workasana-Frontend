@@ -12,7 +12,7 @@ const AddProject = () => {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
 
-  const statusList = ["To Do", "In Progress", "Completed", "Blocked"];
+  const statusList = ["To Do", "In Progress", "Blocked"];
 
   const createHandler = async () => {
     try {

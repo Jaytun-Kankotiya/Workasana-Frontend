@@ -70,7 +70,7 @@ const AddTask = () => {
     fetchUsers();
   }, []);
 
-  const statusList = ["To Do", "In Progress", "Completed", "Blocked"];
+  const statusList = ["To Do", "In Progress", "Blocked"];
 
   const options = [
     { value: "Urgent", label: "Urgent" },
@@ -146,7 +146,7 @@ const AddTask = () => {
           <label>Select Team</label>
           <select
             onChange={(e) => setTeam(e.target.value)}
-            value={timeToComplete}
+            value={team}
             required>
             <option value="" defaultChecked>
               Select Team
