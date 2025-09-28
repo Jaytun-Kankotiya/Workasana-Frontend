@@ -21,7 +21,7 @@ const TaskDetails = () => {
     colors,
   } = useTask();
   const [taskDetails, setTaskDetails] = useState(null);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
 
   const { id } = useParams();
   //   const dueDate = getDueDate(task.createdAt, task.timeToComplete);
@@ -43,34 +43,40 @@ const TaskDetails = () => {
   };
 
   const getdaysRemaining = (createdAt, timeToComplete) => {
-    if(!createdAt || !timeToComplete) return 0
+    if (!createdAt || !timeToComplete) return 0;
 
-    const createdDate = new Date(createdAt)
-    const dueDate = new Date(createdDate.getTime() + timeToComplete * 24 * 60 * 60 * 1000)
+    const createdDate = new Date(createdAt);
+    const dueDate = new Date(
+      createdDate.getTime() + timeToComplete * 24 * 60 * 60 * 1000
+    );
 
-    const diffMs = dueDate - Date.now()
-    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24))
+    const diffMs = dueDate - Date.now();
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
-    return diffDays > 0 ? diffDays : 0
-  }
+    return diffDays > 0 ? diffDays : 0;
+  };
 
   const handleMarkComplete = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-        const {data} = await axios.patch(backendUrl + `/v1/tasks/${id}`, {status: "Completed"}, {withCredentials: true})
+      const { data } = await axios.patch(
+        backendUrl + `/v1/tasks/${id}`,
+        { status: "Completed" },
+        { withCredentials: true }
+      );
 
-        if(!data.success){
-            toast.error(data.message)
-        }else{
-            fetchTasksById()
-            toast.success("Task Mark As Completed")
-        }
+      if (!data.success) {
+        toast.error(data.message);
+      } else {
+        fetchTasksById();
+        toast.success("Task Mark As Completed");
+      }
     } catch (error) {
-        toast.error(error.response?.data?.message || error.message)
-    }finally{
-        setLoading(false)
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     fetchTasksById();
@@ -99,7 +105,7 @@ const TaskDetails = () => {
 
             <div className="task-meta">
               <div className="meta-item">
-                <strong>Status:</strong> {taskDetails?.status || "N/A"}
+                <strong>Status:</strong> <span className="task-status" style={statusColor[taskDetails?.status]}>{taskDetails?.status || "N/A"}</span>
               </div>
               <div className="meta-item">
                 <strong>Time Remaining:</strong>{" "}
@@ -119,14 +125,24 @@ const TaskDetails = () => {
             <div className="">
               <div className="task-complete-container">
                 <h3 className="task-title">Task: {taskDetails.name}</h3>
-                <button disabled={taskDetails?.status === "Completed"} type="button" onClick={handleMarkComplete} className="complete-btn">Mark as Complete</button>
+                <button
+                  disabled={taskDetails?.status === "Completed"}
+                  type="button"
+                  onClick={handleMarkComplete}
+                  className={`complete-btn ${
+                    taskDetails?.status === "Completed" ? "disabled" : ""
+                  }`}>
+                  {taskDetails?.status === "Completed"
+                    ? "Completed"
+                    : "Mark as Complete"}
+                </button>
               </div>
 
               <div className="task-info">
                 <div className="info-item">
                   <strong>Project:</strong> {taskDetails.project?.name || "N/A"}
                 </div>
-                
+
                 <div className="info-item">
                   <strong>Tags:</strong>{" "}
                   {taskDetails.tags?.length
@@ -139,7 +155,7 @@ const TaskDetails = () => {
                 </div>
 
                 <div className="info-item">
-                  <strong>Status:</strong> {taskDetails.status}
+                  <strong>Status:</strong> <span className="task-status" style={statusColor[taskDetails?.status]}>{taskDetails.status}</span>
                 </div>
               </div>
 

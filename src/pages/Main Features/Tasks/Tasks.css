@@ -138,3 +138,9 @@
     flex-wrap: wrap;
     align-items: center;
 }
+
+.complete-btn.disabled,
+.complete-btn:disabled {
+  background: #2c6975c1;
+  cursor: not-allowed;
+}

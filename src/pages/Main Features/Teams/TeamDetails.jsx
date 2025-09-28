@@ -68,7 +68,7 @@ const TeamDetails = () => {
         {teamDetails ? (
           <>
             <div
-              className="project-header mt-5"
+              className="project-header"
               style={{ boxShadow: "2px 4px 12px rgba(0.8,0,0,0.08)" }}>
               <div className="dashboard-title">
                 <div>

@@ -8,7 +8,7 @@ import AddProject from "./AddProject";
 import { Flag } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SlidersHorizontal, CircleArrowLeft } from "lucide-react";
+import { SlidersHorizontal, CircleArrowLeft, ArrowRightToLine } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const ProjectDetails = () => {
@@ -112,6 +112,7 @@ const ProjectDetails = () => {
             <th>PRIORITY</th>
             <th>DUE ON</th>
             <th>STATUS</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -162,13 +163,14 @@ const ProjectDetails = () => {
                         {task.status}
                       </p>
                     </td>
+                    <td className="text-center"><Link to={`/task-details/${task?._id}`}><ArrowRightToLine /></Link></td>
                   </tr>
                 );
               })}
             </>
           ) : (
             <tr>
-              <td colSpan={5} className="no-task">
+              <td colSpan={6} className="no-task">
                 No Task Found
               </td>
             </tr>

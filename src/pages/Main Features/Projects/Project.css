@@ -234,6 +234,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .task-table th {
+  flex: 1;
   padding: 12px 15px;
   text-align: left;
   font-size: 16px;
@@ -244,6 +245,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .task-table td {
+  flex: 1;
   padding: 12px 15px;
   border: 1px solid #e0e0e0;
   text-align: left;
