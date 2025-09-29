@@ -8,7 +8,11 @@ import AddProject from "./AddProject";
 import { Flag } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { SlidersHorizontal, CircleArrowLeft, ArrowRightToLine } from "lucide-react";
+import {
+  SlidersHorizontal,
+  CircleArrowLeft,
+  ArrowRightToLine,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 const ProjectDetails = () => {
@@ -93,6 +97,27 @@ const ProjectDetails = () => {
     setSort(e.target.value);
   };
 
+  const handleProjectComplete = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.patch(
+        backendUrl + `/v1/projects/${id}`,
+        { status: "Completed" },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        fetchProjectById();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   function TaskTable() {
     const colors = [
       "#f39c12",
@@ -138,7 +163,7 @@ const ProjectDetails = () => {
                                 key={inx}
                                 className="owner-avtar"
                                 style={{ backgroundColor: bgColor }}
-                                title={owner}>
+                                title={owner.name}>
                                 {initials}
                               </div>
                             );
@@ -163,7 +188,11 @@ const ProjectDetails = () => {
                         {task.status}
                       </p>
                     </td>
-                    <td className="text-center"><Link to={`/task-details/${task?._id}`}><ArrowRightToLine /></Link></td>
+                    <td className="text-center">
+                      <Link to={`/task-details/${task?._id}`}>
+                        <ArrowRightToLine />
+                      </Link>
+                    </td>
                   </tr>
                 );
               })}
@@ -189,13 +218,37 @@ const ProjectDetails = () => {
       {addProject && <AddProject />}
       <div className="right-container">
         <Link className="backarrow-container" to="/projects">
-          <span className="back-icon"><CircleArrowLeft /></span>
+          <span className="back-icon">
+            <CircleArrowLeft />
+          </span>
           <span className="back-text">Back To Projects</span>
         </Link>
         {projectDetails ? (
           <div className="project-header">
-            <h2 className="project-title">{projectDetails.name}</h2>
+            <div className="d-flex justify-content-between">
+              <h2 className="project-title">{projectDetails.name}</h2>
+              <button
+                disabled={projectDetails?.status === "Completed"}
+                type="button"
+                onClick={handleProjectComplete}
+                className={`complete-btn ${
+                  projectDetails?.status === "Completed" ? "disabled" : ""
+                }`}>
+                {projectDetails?.status === "Completed"
+                  ? "Completed"
+                  : "Mark as Complete"}
+              </button>
+            </div>
+            
             <p className="project-description">{projectDetails.description}</p>
+            <p>
+              <strong>Status:</strong>{" "}
+              <span
+                className="task-status"
+                style={statusColor[projectDetails?.status]}>
+                {projectDetails?.status || "N/A"}
+              </span>
+            </p>
           </div>
         ) : (
           <Spinner />

@@ -32,9 +32,11 @@ const VerifyEmail = () => {
 
 
   return (
+    <div style={{ "background-color": "#008080" }}>
+      <Navbar />
     <div className="login-bg" style={{ "background-color": "#008080" }}>
       {loading && <Spinner />}
-      <Navbar />
+      
       <form onSubmit={emailVerifyHandler} className={loading ? "verification-container content-dull" : "verification-container"}>
         <div className="verify-header">
           <h2>Password Recovery</h2>
@@ -59,6 +61,7 @@ const VerifyEmail = () => {
           <button type="submit" className="verify-btn">Send OTP</button>
         </div>
       </form>
+    </div>
     </div>
   );
 };

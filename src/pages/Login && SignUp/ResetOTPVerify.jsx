@@ -7,23 +7,22 @@ import { toast } from "react-toastify";
 import Spinner from "../../components/Spinner";
 
 const ResetOTPVerify = () => {
+  const { backendUrl, navigate, loading, setLoading } = useTask();
 
-  const {backendUrl, navigate, loading, setLoading} = useTask()
-
-  const [timer, setTimer] = useState(0)
+  const [timer, setTimer] = useState(0);
   const inputRefs = React.useRef([]);
 
-  const email = localStorage.getItem("resetEmail")
+  const email = localStorage.getItem("resetEmail");
 
   useEffect(() => {
-    let interval
-    if(timer > 0){
+    let interval;
+    if (timer > 0) {
       interval = setInterval(() => {
-        setTimer((prev) => prev - 1)
-      }, 1000)
+        setTimer((prev) => prev - 1);
+      }, 1000);
     }
-    return () => clearInterval(interval)
-  }, [timer])
+    return () => clearInterval(interval);
+  }, [timer]);
 
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
@@ -53,82 +52,102 @@ const ResetOTPVerify = () => {
   };
 
   const resetOTPHandler = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
-      const otpArray = inputRefs.current.map((e) => e.value)
-      const otp = otpArray.join('')
+      const otpArray = inputRefs.current.map((e) => e.value);
+      const otp = otpArray.join("");
 
-      const {data} = await axios.post(backendUrl + "/v1/auth/verify-reset-otp", {otp, email}, {withCredentials: true})
-      if(data.success){
-        toast.success(data.message)
+      const { data } = await axios.post(
+        backendUrl + "/v1/auth/verify-reset-otp",
+        { otp, email },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        toast.success(data.message);
         // localStorage.setItem("resetEmail", email);
-        navigate("/reset-password")
-      }else{
-        toast.error(data.message)
-        inputRefs.current.forEach((input) => input.value = "")
+        navigate("/reset-password");
+      } else {
+        toast.error(data.message);
+        inputRefs.current.forEach((input) => (input.value = ""));
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message)
+      toast.error(error.response?.data?.message || error.message);
       inputRefs.current.forEach((input) => (input.value = ""));
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const resendHandler = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const {data} = await axios.post(backendUrl + "/v1/auth/send-reset-otp", {email}, {withCredentials: true})
-      if(data.success){
-        toast.success(data.message)
-        setTimer(30)
+      const { data } = await axios.post(
+        backendUrl + "/v1/auth/send-reset-otp",
+        { email },
+        { withCredentials: true }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        setTimer(30);
         inputRefs.current.forEach((input) => (input.value = ""));
-      }else{
-        toast.error(data.message)
+      } else {
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || error.message)
-    }finally{
-      setLoading(false)
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
     }
-  }
-
+  };
 
   return (
-    <div className="login-bg" style={{ "background-color": "#008080" }}>
-      {loading && <Spinner />}
+    <div style={{ "background-color": "#008080" }}>
       <Navbar />
-      <form onSubmit={resetOTPHandler} className={loading ? "verification-container content-dull" : "verification-container"}>
-        <div className="verify-header">
-          <h2>Password Reset Verification</h2>
-          <p>Please enter the OTP to reset your password.</p>
-        </div>
-        <div onPaste={handlePaste} className="input-container">
-          {Array(6)
-            .fill(0)
-            .map((_, index) => (
-              <input
-                ref={(e) => (inputRefs.current[index] = e)}
-                className="otp-input"
-                onInput={(e) => handleInput(e, index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                maxLength="1"
-                type="text"
-                key={index}
-                required
-              />
-            ))}
-        </div>
+      <div className="login-bg" style={{ "background-color": "#008080" }}>
+        {loading && <Spinner />}
+        
+        <form
+          onSubmit={resetOTPHandler}
+          className={
+            loading
+              ? "verification-container content-dull"
+              : "verification-container"
+          }>
+          <div className="verify-header">
+            <h2>Password Reset Verification</h2>
+            <p>Please enter the OTP to reset your password.</p>
+          </div>
+          <div onPaste={handlePaste} className="input-container">
+            {Array(6)
+              .fill(0)
+              .map((_, index) => (
+                <input
+                  ref={(e) => (inputRefs.current[index] = e)}
+                  className="otp-input"
+                  onInput={(e) => handleInput(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  maxLength="1"
+                  type="text"
+                  key={index}
+                  required
+                />
+              ))}
+          </div>
 
-        <div className="resend-otp">
-          <p>Didn't receive the code?</p>
-          <button type="button" onClick={resendHandler} disabled={timer > 0}>{timer > 0 ? `Resend OTP in ${timer}` : "Resend OTP"}</button>
-        </div>
-        <div className="verify-container">
-          <button type="submit" className="verify-btn">Verify & Continue</button>
-        </div>
-      </form>
+          <div className="resend-otp">
+            <p>Didn't receive the code?</p>
+            <button type="button" onClick={resendHandler} disabled={timer > 0}>
+              {timer > 0 ? `Resend OTP in ${timer}` : "Resend OTP"}
+            </button>
+          </div>
+          <div className="verify-container">
+            <button type="submit" className="verify-btn">
+              Verify & Continue
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
