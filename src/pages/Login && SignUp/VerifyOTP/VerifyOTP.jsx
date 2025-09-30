@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../VerifyOTP/VerifyOtp.css";
+import "./VerifyOTP.css";
 import { useTask } from "../../../context/TaskContext";
 import Navbar from "../../../components/Navbar";
 import axios from "axios";
