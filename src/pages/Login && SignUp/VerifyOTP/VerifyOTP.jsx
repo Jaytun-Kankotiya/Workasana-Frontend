@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./VerifyOtp.css";
+import "../VerifyOTP/VerifyOtp.css";
 import { useTask } from "../../../context/TaskContext";
 import Navbar from "../../../components/Navbar";
-import bgImage from "../../../assets/bg.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";

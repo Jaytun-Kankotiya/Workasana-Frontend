@@ -72,9 +72,9 @@ const Setting = () => {
 
           <div className="profile-header">
             <strong>Name:</strong>
-            {userData.name}
+            {userData?.name}
             <strong>Email:</strong>
-            {userData.email}
+            {userData?.email}
             <strong>Account Status:</strong>
             {userData?.isVerified === false ? "❌ Not Verified" : "✅ Verified"}
 
