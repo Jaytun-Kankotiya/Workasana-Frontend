@@ -103,7 +103,7 @@ const VerifyOtp = () => {
   return (
     <div style={{ backgroundColor: "#008080" }} >
       <Navbar />
-      <div className="login-bg" style={{ backgroundColor: "#008080" }}>
+      <div className="otp-bg" style={{ backgroundColor: "#008080" }}>
         {loading && <Spinner />}
         <form
           onSubmit={otpSubmitHandler}

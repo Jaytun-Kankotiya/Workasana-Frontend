@@ -104,7 +104,7 @@ const ResetOTPVerify = () => {
   return (
     <div style={{ "background-color": "#008080" }}>
       <Navbar />
-      <div className="login-bg" style={{ "background-color": "#008080" }}>
+      <div className="otp-bg" style={{ "background-color": "#008080" }}>
         {loading && <Spinner />}
         
         <form
