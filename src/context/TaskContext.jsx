@@ -175,11 +175,6 @@ const TaskProvider = (props) => {
   };
 
 
-    // useEffect(() => {
-    //   fetchProjects()
-    //   fetchTasks()
-    // }, [])
-
   const value = {
     backendUrl,
     navigate, colors,
